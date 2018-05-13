@@ -31,11 +31,8 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<!-- 导入SpringBoot版本 需要注意以下几点： 
-					 1、dependencyManagement只是为了统一所有依赖项的版本管理，只是进行声明，不会引发buildpath改变。 
-						如果需要引入依赖项，则需要在“同级的dependencies”元素中增加依赖项。 
-					 2、如果需要覆盖当前依赖项dependency中的某个jar包的版本，需要在当前dependency之前添加另一个dependency进行覆盖 
-				-->
+				<!-- 导入SpringBoot版本 需要注意以下几点： 1、dependencyManagement只是为了统一所有依赖项的版本管理，只是进行声明，不会引发buildpath改变。 
+					如果需要引入依赖项，则需要在“同级的dependencies”元素中增加依赖项。 2、如果需要覆盖当前依赖项dependency中的某个jar包的版本，需要在当前dependency之前添加另一个dependency进行覆盖 -->
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-dependencies</artifactId>
 				<version>${spring.boot.version}</version>
@@ -47,6 +44,7 @@
 	<modules>
 		<module>mamba-framework-context</module>
 		<module>mamba-framework-sip</module>
-		
+
+		<module>mamba-framework-web</module>
 	</modules>
 </project>
