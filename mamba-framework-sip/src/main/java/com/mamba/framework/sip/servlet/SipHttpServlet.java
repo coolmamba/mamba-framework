@@ -57,11 +57,11 @@ import com.mamba.framework.context.session.Session;
 import com.mamba.framework.context.session.SessionManager;
 import com.mamba.framework.context.util.Assert;
 import com.mamba.framework.context.util.StringUtils;
-import com.mamba.framework.sip.event.SipHttpServletHandledEvent;
 import com.mamba.framework.sip.servlet.bean.SipBusiReqBodyBean;
 import com.mamba.framework.sip.servlet.bean.SipPubReqInfoBean;
 import com.mamba.framework.sip.servlet.bean.SipReqBean;
 import com.mamba.framework.sip.servlet.bean.SipRespBean;
+import com.mamba.framework.sip.servlet.event.SipHttpServletHandledEvent;
 
 /**
  * SIP(服务接口协议) HttpServlet实现

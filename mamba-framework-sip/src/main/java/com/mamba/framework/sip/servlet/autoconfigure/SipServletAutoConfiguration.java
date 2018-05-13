@@ -1,4 +1,4 @@
-package com.mamba.framework.sip.autoconfigure;
+package com.mamba.framework.sip.servlet.autoconfigure;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -44,8 +44,8 @@ import org.springframework.core.type.AnnotationMetadata;
 
 import com.jf.crm.common.framework.sip.provider.AccessChannelSourceProvider;
 import com.mamba.framework.context.util.Assert;
-import com.mamba.framework.sip.autoconfigure.SipServletAutoConfiguration.SipServletComponentRegistrar;
 import com.mamba.framework.sip.servlet.SipHttpServlet;
+import com.mamba.framework.sip.servlet.autoconfigure.SipServletAutoConfiguration.SipServletComponentRegistrar;
 
 /**
  * {@link SipHttpServlet}自动配置类

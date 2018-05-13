@@ -1,4 +1,4 @@
-package com.mamba.framework.sip.autoconfigure;
+package com.mamba.framework.sip.servlet.autoconfigure;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

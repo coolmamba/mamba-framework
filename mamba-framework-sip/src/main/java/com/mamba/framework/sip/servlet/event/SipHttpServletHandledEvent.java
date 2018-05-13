@@ -1,4 +1,4 @@
-package com.mamba.framework.sip.event;
+package com.mamba.framework.sip.servlet.event;
 
 import org.springframework.context.ApplicationEvent;
 
