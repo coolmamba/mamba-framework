@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.mamba</groupId>
+		<artifactId>mamba-framework</artifactId>
+		<version>${mamba.framework.version}</version>
+	</parent>
+
+	<artifactId>mamba-framework-context</artifactId>
+	<name>mamba-framework-context</name>
+	<url>http://maven.apache.org</url>
+
+	<dependencies>
+		<!-- Spring-Boot核心Jar包 Start -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+		</dependency>
+		<!-- Spring-Boot核心Jar包 End -->
+		
+		<!-- 引入ehcache 3相关包 Start -->
+		<!-- spring-boot-starter-cache依赖必须有，因为Spring缓存管理实现由spring-context-support.jar提供 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-cache</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.cache</groupId>
+			<artifactId>cache-api</artifactId>
+		</dependency>
+		<!-- 引入ehcache 3相关包 End -->
+
+		<!-- 引入阿里巴巴 fastjson包 Start -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.46</version>
+		</dependency>
+		<!-- 引入阿里巴巴 fastjson包 End -->
+	</dependencies>
+</project>
