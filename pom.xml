@@ -46,5 +46,6 @@
 	</dependencyManagement>
 	<modules>
 		<module>mamba-framework-context</module>
+		<module>mamba-framework-sip</module>
 	</modules>
 </project>

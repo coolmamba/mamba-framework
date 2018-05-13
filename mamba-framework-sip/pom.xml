@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.mamba</groupId>
+		<artifactId>mamba-framework</artifactId>
+		<version>${mamba.framework.version}</version>
+	</parent>
+	<artifactId>mamba-framework-sip</artifactId>
+	<name>mamba-framework-sip</name>
+	<url>http://maven.apache.org</url>
+
+
+	<!-- **************添加sip工程jar依赖**************Start -->
+	<dependencies>
+		<!-- spring-boot-starter-web默认使用tomcat容器，如果要使用jetty容器的话，那么就需要忽略tomcat -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jetty</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.mamba</groupId>
+			<artifactId>mamba-framework-context</artifactId>
+			<version>${mamba.framework.version}</version>
+		</dependency>
+	</dependencies>
+	<!-- **************添加sip工程jar依赖****************End -->
+</project>
