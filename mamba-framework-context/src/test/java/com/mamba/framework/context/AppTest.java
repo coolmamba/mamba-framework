@@ -1,4 +1,4 @@
-package org.mamba.framework.context;
+package com.mamba.framework.context;
 
 import junit.framework.TestCase;
 

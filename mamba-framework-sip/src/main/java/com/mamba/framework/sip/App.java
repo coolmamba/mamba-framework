@@ -1,4 +1,4 @@
-package org.mamba.framework.sip;
+package com.mamba.framework.sip;
 
 /**
  * Hello world!

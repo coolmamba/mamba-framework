@@ -1,4 +1,4 @@
-package org.mamba.framework.sip;
+package com.mamba.framework.sip;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
