@@ -1,5 +1,9 @@
 package com.mamba.framework.context.constant;
 
+/**
+ * 定义{@link com.mamba.framework.sip.servlet.SipHttpServlet} 响应报文中的PubRespInfo节点中的“响应编号”和“响应描述”信息
+ * @author junmamba
+ */
 public enum RespEnum {
 	SUCCESS("0000", "受理成功"),
 	/** 9900 --> 9999 , 供系统和基础框架使用 */

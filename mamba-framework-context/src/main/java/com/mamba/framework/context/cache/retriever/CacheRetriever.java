@@ -61,8 +61,8 @@ public class CacheRetriever {
 		Map<String, List<String>> refreshResultMap = new HashMap<String, List<String>>();
 		List<String> successList = new ArrayList<String>();
 		List<String> failList = new ArrayList<String>();
-		refreshResultMap.put("SUCCESS", successList);
-		refreshResultMap.put("FAIL", failList);
+		refreshResultMap.put("SuccessList", successList);
+		refreshResultMap.put("FailList", failList);
 		
 		Cache<String, String> cache = null;
 		try {
