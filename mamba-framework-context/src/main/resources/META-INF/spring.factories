@@ -5,5 +5,5 @@ com.mamba.framework.context.i18n.autoconfigure.I18nAutoConfiguration,\
 com.mamba.framework.context.beans.beantranslator.autoconfigure.BeanTranslatorAutoConfiguration
 
 # 缓存加载器
-com.jf.crm.common.framework.cache.loader.CacheLoader=\
-com.jf.crm.common.framework.i18n.cache.loader.I18nResourcesCacheLoader
+com.mamba.framework.context.cache.loader.CacheLoader=\
+com.mamba.framework.context.i18n.cache.loader.I18nResourcesCacheLoader

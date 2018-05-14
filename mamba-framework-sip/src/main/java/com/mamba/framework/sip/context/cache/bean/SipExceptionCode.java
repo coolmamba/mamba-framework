@@ -1,6 +1,8 @@
 package com.mamba.framework.sip.context.cache.bean;
 
-public class SipExceptionCode {
+import java.io.Serializable;
+
+public class SipExceptionCode implements Serializable {
     private String exceptionKey;
 
     private Integer accessChannel;
