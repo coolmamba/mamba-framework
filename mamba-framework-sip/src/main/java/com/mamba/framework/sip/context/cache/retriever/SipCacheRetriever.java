@@ -14,8 +14,8 @@ import com.mamba.framework.sip.context.cache.loader.AccessChannelCacheLoader;
 import com.mamba.framework.sip.context.cache.loader.SipBusiAccessCacheLoader;
 import com.mamba.framework.sip.context.cache.loader.SipExceptionCodeCacheLoader;
 
-public class SipRetriever {
-	private Log logger = LogFactory.getLog(SipRetriever.class);
+public class SipCacheRetriever {
+	private Log logger = LogFactory.getLog(SipCacheRetriever.class);
 	
 	private String sipBusiAccessCacheLoaderClassName = SipBusiAccessCacheLoader.class.getName();
 	private String sipExceptionCodeCacheLoaderClassName = SipExceptionCodeCacheLoader.class.getName();

@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.mamba.framework.context.i18n.autoconfigure.I18nLocalEnum;
 import com.mamba.framework.context.i18n.messagesource.I18nMessageSource;
 
-public class I18nMessageRetriever {
+public class I18nMessageCacheRetriever {
 	@Autowired
 	private I18nMessageSource i18nMessageSource;
 

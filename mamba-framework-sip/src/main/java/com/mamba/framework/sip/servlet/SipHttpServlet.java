@@ -40,7 +40,7 @@ import com.mamba.framework.context.cache.event.CacheLoadedApplicationEvent;
 import com.mamba.framework.context.cache.runner.CacheLoadApplicationRunner;
 import com.mamba.framework.context.constant.RespEnum;
 import com.mamba.framework.context.exception.BusinessException;
-import com.mamba.framework.context.i18n.cache.retriever.I18nMessageRetriever;
+import com.mamba.framework.context.i18n.cache.retriever.I18nMessageCacheRetriever;
 import com.mamba.framework.context.session.Operator;
 import com.mamba.framework.context.session.Session;
 import com.mamba.framework.context.session.SessionManager;
@@ -49,7 +49,7 @@ import com.mamba.framework.context.util.StringUtils;
 import com.mamba.framework.sip.context.cache.bean.AccessChannel;
 import com.mamba.framework.sip.context.cache.bean.SipBusiAccess;
 import com.mamba.framework.sip.context.cache.bean.SipExceptionCode;
-import com.mamba.framework.sip.context.cache.retriever.SipRetriever;
+import com.mamba.framework.sip.context.cache.retriever.SipCacheRetriever;
 import com.mamba.framework.sip.context.constant.SipExceptionKey;
 import com.mamba.framework.sip.context.exception.SipException;
 import com.mamba.framework.sip.servlet.bean.SipBusiReqBodyBean;
@@ -90,10 +90,10 @@ public class SipHttpServlet extends SipHttpServletBean implements ApplicationCon
 	private Log logger = LogFactory.getLog(SipHttpServlet.class);
 
 	@Autowired
-	private SipRetriever sipRetriever;
+	private SipCacheRetriever sipRetriever;
 	
 	@Autowired
-	private I18nMessageRetriever i18nMessageRetriever;
+	private I18nMessageCacheRetriever i18nMessageRetriever;
 	
 	private ApplicationContext context;
 	private ClassLoader classLoader;

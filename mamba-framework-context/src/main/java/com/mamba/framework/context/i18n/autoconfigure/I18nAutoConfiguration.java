@@ -15,7 +15,7 @@ import org.springframework.core.type.AnnotationMetadata;
 import com.mamba.framework.context.FrameworkComponentOrdered;
 import com.mamba.framework.context.cache.autoconfigure.CacheLoadAutoConfiguration;
 import com.mamba.framework.context.i18n.autoconfigure.I18nAutoConfiguration.I18nMessageSourceRegistrar;
-import com.mamba.framework.context.i18n.cache.retriever.I18nMessageRetriever;
+import com.mamba.framework.context.i18n.cache.retriever.I18nMessageCacheRetriever;
 import com.mamba.framework.context.i18n.messagesource.I18nMessageSource;
 import com.mamba.framework.context.util.BeanDefinitionRegistryUtil;
 
@@ -39,12 +39,12 @@ public class I18nAutoConfiguration {
 				AbstractApplicationContext.MESSAGE_SOURCE_BEAN_NAME, I18nMessageSource.class);
 			
 			/** @step 2: 往bean工厂注入i18n消息检索器Bean定义 */
-			String i18nMessageRetrieverClassName = I18nMessageRetriever.class.getName();
+			String i18nMessageRetrieverClassName = I18nMessageCacheRetriever.class.getName();
 			if (registry.containsBeanDefinition(i18nMessageRetrieverClassName)) {
 				logger.warn("检测到bean工厂中已经存在beanName=[" + i18nMessageRetrieverClassName + "]的bean定义，将其移除");
 				registry.removeBeanDefinition(i18nMessageRetrieverClassName);
 			}
-			BeanDefinitionRegistryUtil.registerInfrastructureBeanDefinition(registry, I18nMessageRetriever.class);
+			BeanDefinitionRegistryUtil.registerInfrastructureBeanDefinition(registry, I18nMessageCacheRetriever.class);
 		}
 	}
 }
