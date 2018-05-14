@@ -12,7 +12,7 @@ import org.springframework.core.io.support.SpringFactoriesLoader;
 
 import com.mamba.framework.context.cache.loader.AbstractCacheLoader;
 import com.mamba.framework.context.i18n.cache.bean.I18nResource;
-import com.mamba.framework.context.i18n.provider.I18nResourceProvider;
+import com.mamba.framework.context.i18n.cache.provider.I18nResourceCacheProvider;
 
 public class I18nResourcesCacheLoader extends AbstractCacheLoader<String, I18nResource> implements ApplicationContextAware, BeanClassLoaderAware {
 
@@ -22,11 +22,11 @@ public class I18nResourcesCacheLoader extends AbstractCacheLoader<String, I18nRe
 
 	@Override
 	public Map<String, I18nResource> data() {
-		List<String> providers = SpringFactoriesLoader.loadFactoryNames(I18nResourceProvider.class, this.classLoader);
+		List<String> providers = SpringFactoriesLoader.loadFactoryNames(I18nResourceCacheProvider.class, this.classLoader);
 		Map<String, I18nResource> map = new HashMap<String, I18nResource>();
 		for (String providerClassName : providers) {
-			I18nResourceProvider provider = this.context.getBean(providerClassName, I18nResourceProvider.class);
-			List<I18nResource> datas = provider.datas();
+			I18nResourceCacheProvider provider = this.context.getBean(providerClassName, I18nResourceCacheProvider.class);
+			List<I18nResource> datas = provider.provide();
 			for (int i = 0; null != datas && i < datas.size(); i++) {
 				I18nResource i18nResource = datas.get(i);
 				String key = i18nResource.getCode() + "_" + i18nResource.getLocal();

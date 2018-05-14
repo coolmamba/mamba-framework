@@ -3,7 +3,6 @@ package com.mamba.framework.context.i18n.cache.bean;
 import java.io.Serializable;
 
 public class I18nResource implements Serializable {
-	private static final long serialVersionUID = -4653272245163467109L;
 	private String code;
 	private String local;
 	private String content;

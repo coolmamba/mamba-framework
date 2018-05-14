@@ -21,8 +21,8 @@ import org.springframework.core.type.AnnotationMetadata;
 import com.mamba.framework.context.FrameComponentOrdered;
 import com.mamba.framework.context.cache.autoconfigure.CacheLoadAutoConfiguration;
 import com.mamba.framework.context.i18n.autoconfigure.I18nAutoConfiguration.I18nMessageSourceRegistrar;
+import com.mamba.framework.context.i18n.cache.provider.I18nResourceCacheProvider;
 import com.mamba.framework.context.i18n.messagesource.I18nMessageSource;
-import com.mamba.framework.context.i18n.provider.I18nResourceProvider;
 import com.mamba.framework.context.i18n.util.I18nMessageRetriever;
 
 @AutoConfigureOrder(FrameComponentOrdered.DCI18N)
@@ -56,11 +56,11 @@ public class I18nAutoConfiguration {
 			registry.registerBeanDefinition(i18nMessageRetrieverClassName, i18nMessageRetrieverBeanDefinition);
 			
 			/** @step 3: 往bean工厂注入i18n源数据提供商bean定义 */
-			List<String> providers = SpringFactoriesLoader.loadFactoryNames(I18nResourceProvider.class, this.classLoader);
+			List<String> providers = SpringFactoriesLoader.loadFactoryNames(I18nResourceCacheProvider.class, this.classLoader);
 			for (String providerClassName : providers) {
-				Class<I18nResourceProvider> providerClass = null;
+				Class<I18nResourceCacheProvider> providerClass = null;
 				try {
-					providerClass = (Class<I18nResourceProvider>) Class.forName(providerClassName);
+					providerClass = (Class<I18nResourceCacheProvider>) Class.forName(providerClassName);
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}

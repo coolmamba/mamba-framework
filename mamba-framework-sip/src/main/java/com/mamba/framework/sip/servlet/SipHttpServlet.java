@@ -7,11 +7,9 @@ import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -24,7 +22,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanClassLoaderAware;
-import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -39,12 +36,9 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.PropertyNamingStrategy;
 import com.alibaba.fastjson.serializer.SerializeConfig;
-import com.jf.crm.common.constant.RespCodeEnum;
-import com.jf.crm.common.framework.sip.bean.AccessChannelBean;
-import com.jf.crm.common.framework.sip.model.SipBusiAccess;
-import com.jf.crm.common.framework.sip.model.SipExceptionCode;
 import com.mamba.framework.context.cache.event.CacheLoadedApplicationEvent;
 import com.mamba.framework.context.cache.runner.CacheLoadApplicationRunner;
+import com.mamba.framework.context.constant.RespEnum;
 import com.mamba.framework.context.exception.BusinessException;
 import com.mamba.framework.context.i18n.util.I18nMessageRetriever;
 import com.mamba.framework.context.session.Operator;
@@ -52,10 +46,12 @@ import com.mamba.framework.context.session.Session;
 import com.mamba.framework.context.session.SessionManager;
 import com.mamba.framework.context.util.Assert;
 import com.mamba.framework.context.util.StringUtils;
+import com.mamba.framework.sip.context.cache.bean.AccessChannel;
+import com.mamba.framework.sip.context.cache.bean.SipBusiAccess;
+import com.mamba.framework.sip.context.cache.bean.SipExceptionCode;
+import com.mamba.framework.sip.context.cache.util.SipRetriever;
 import com.mamba.framework.sip.context.constant.SipExceptionKey;
 import com.mamba.framework.sip.context.exception.SipException;
-import com.mamba.framework.sip.context.provider.AccessChannelSourceProvider;
-import com.mamba.framework.sip.context.util.SipRetriever;
 import com.mamba.framework.sip.servlet.bean.SipBusiReqBodyBean;
 import com.mamba.framework.sip.servlet.bean.SipPubReqInfoBean;
 import com.mamba.framework.sip.servlet.bean.SipReqBean;
@@ -64,14 +60,13 @@ import com.mamba.framework.sip.servlet.event.SipHttpServletHandledEvent;
 
 /**
  * SIP(服务接口协议) HttpServlet实现
- * 
  * @important_warning: 仅支持POST请求
  * 
  * @请求报文格式
  * {
  * 		"PubReqInfo": {// 公共参数
- * 			"OperatorId": "5300", 
- * 			"AccessChannel": "1"
+ * 			"OperatorId": "", 
+ * 			"AccessChannel": ""
  * 		}, 
  * 		"BusiReqBody": {// 业务请求报文主体
  * 			"BusiCode":"", 
@@ -117,10 +112,7 @@ public class SipHttpServlet extends SipHttpServletBean implements ApplicationCon
 	private final Map<String, Method> serviceMethodMapping = new HashMap<String, Method>();
 	private final Map<String, String> serviceClassMappingAlias = new HashMap<String, String>();
 	
-	private List<AccessChannelSourceProvider> accessChannelSourceProviders;
-
 	private SerializeConfig fastJsonConfig = new SerializeConfig(); 
-
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -231,8 +223,8 @@ public class SipHttpServlet extends SipHttpServletBean implements ApplicationCon
 		Map<String, Object> responseMap = new HashMap<String, Object>();
 		// 公共部分
 		Map<String, Object> pubRespInfoMap = new HashMap<String, Object>();
-		pubRespInfoMap.put(PUB_RESP_INFO_RESPCODE, RespCodeEnum.SUCCESS.respCode);
-		pubRespInfoMap.put(PUB_RESP_INFO_RESPDESC, RespCodeEnum.SUCCESS.respDesc);
+		pubRespInfoMap.put(PUB_RESP_INFO_RESPCODE, RespEnum.SUCCESS.respCode);
+		pubRespInfoMap.put(PUB_RESP_INFO_RESPDESC, RespEnum.SUCCESS.respDesc);
 
 		responseMap.put(PUB_RESP_INFO, pubRespInfoMap);// 公共部分
 		responseMap.put(BUSI_RESP_BODY, result);// 业务部分
@@ -319,7 +311,7 @@ public class SipHttpServlet extends SipHttpServletBean implements ApplicationCon
 			throw new SipException(SipExceptionKey.SIP000007);
 		}
 
-		AccessChannelBean accessChannelBean = getAccessChannel(pubReqInfoBean.getAccessChannel());
+		AccessChannel accessChannelBean = this.sipRetriever.getAccessChannel(pubReqInfoBean.getAccessChannel());
 		if (null == accessChannelBean) {// 接入渠道非法
 			throw new SipException(SipExceptionKey.SIP000008, pubReqInfoBean.getAccessChannel());
 		}
@@ -422,19 +414,19 @@ public class SipHttpServlet extends SipHttpServletBean implements ApplicationCon
 		String respCode = StringUtils.EMPTY;
 		String respDesc = StringUtils.EMPTY;
 		if (null != sipExceptionCode) {// 如果配置了SIP_EXCEPTION_CODE
-			respCode = sipExceptionCode.getExceptionCode();
-			respDesc = sipExceptionCode.getExceptionDesc();
+			respCode = sipExceptionCode.getCode();
+			respDesc = sipExceptionCode.getDesc();
 			if (StringUtils.isBlank(respDesc)) {
 				respDesc = getExceptionMessage(failureCause);
 			}
 		}
 		if (StringUtils.isBlank(respCode)) {
 			if (failureCause instanceof BusinessException) {
-				respCode = RespCodeEnum.BUSINESS_SO_FAIL.respCode;
+				respCode = RespEnum.BUSINESS_SO_FAIL.respCode;
 				respDesc = getExceptionMessage(failureCause);
 			} else {
-				respCode = RespCodeEnum.SYSTEM_EXCEPTION.respCode;
-				respDesc = RespCodeEnum.SYSTEM_EXCEPTION.respDesc;
+				respCode = RespEnum.SYSTEM_EXCEPTION.respCode;
+				respDesc = RespEnum.SYSTEM_EXCEPTION.respDesc;
 			}
 		} 
 		
@@ -464,25 +456,10 @@ public class SipHttpServlet extends SipHttpServletBean implements ApplicationCon
 		// 初始化fastJson配置，设置响应报文key首字母大写
 		this.fastJsonConfig.propertyNamingStrategy = PropertyNamingStrategy.PascalCase;;
 		
-		// 初始化服务接入方数据源提供商信息
-		initAccessChannelSourceProvider();
-		
 		if (this.logger.isInfoEnabled()) {
 			long elapsedTime = System.currentTimeMillis() - startTime;
 			this.logger.info("SipServlet '" + getServletName() + "' 初始化工作完成，耗时： " + elapsedTime + " ms");
 		}
-	}
-	
-	/**
-	 * 初始化服务接入方数据源提供商信息
-	 * @throws ServletException
-	 */
-	private void initAccessChannelSourceProvider() throws ServletException {
-		Map<String, AccessChannelSourceProvider> matchingBeans = BeanFactoryUtils.beansOfTypeIncludingAncestors(context, AccessChannelSourceProvider.class, true, false);
-		if (matchingBeans.isEmpty()) {
-			throw new ServletException("服务接入方数据源加载失败");
-		}
-		this.accessChannelSourceProviders = new ArrayList<AccessChannelSourceProvider>(matchingBeans.values());
 	}
 	
 	@Override
@@ -668,22 +645,5 @@ public class SipHttpServlet extends SipHttpServletBean implements ApplicationCon
 		if (this.context instanceof ConfigurableWebApplicationContext) {
 			((ConfigurableWebApplicationContext) this.context).addApplicationListener(new CacheLoadedListener());
 		}
-	}
-	
-	/**
-	 * 获取服务接入方信息
-	 * @param accessChannel
-	 * @return
-	 */
-	private AccessChannelBean getAccessChannel(int accessChannel) {
-		for (AccessChannelSourceProvider provider : this.accessChannelSourceProviders) {
-			List<AccessChannelBean> accessChannels = provider.provide();
-			for (int i = 0; null != accessChannels && i < accessChannels.size(); i++) {
-				if (accessChannel == accessChannels.get(i).getAccessChannel()) {
-					return accessChannels.get(i);
-				}
-			}
-		}
-		return null;
 	}
 }

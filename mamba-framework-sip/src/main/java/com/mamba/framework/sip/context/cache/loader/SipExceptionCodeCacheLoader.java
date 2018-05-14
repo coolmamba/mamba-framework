@@ -4,26 +4,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.jf.crm.common.framework.sip.mapper.SipExceptionCodeMapper;
-import com.jf.crm.common.framework.sip.model.SipExceptionCode;
 import com.mamba.framework.context.cache.loader.AbstractCacheLoader;
+import com.mamba.framework.sip.context.cache.bean.SipExceptionCode;
+import com.mamba.framework.sip.context.cache.provider.SipExceptionCodeCacheProvider;
 
 public class SipExceptionCodeCacheLoader extends AbstractCacheLoader<String, SipExceptionCode> {
-	@Autowired
-	private SipExceptionCodeMapper sipExceptionCodeMapper;
-	
 	@Override
 	public Map<String, SipExceptionCode> data() {
-		List<SipExceptionCode> sipExceptionCodes = this.sipExceptionCodeMapper.selectAllValidStateDatas();
+		List<SipExceptionCodeCacheProvider> providers = getProviders(SipExceptionCodeCacheProvider.class);
 		Map<String, SipExceptionCode> datas = new HashMap<String, SipExceptionCode>();
-		for (int i = 0; null != sipExceptionCodes && i < sipExceptionCodes.size(); i++) {
-			SipExceptionCode sipExceptionCode = sipExceptionCodes.get(i);
-			String key = sipExceptionCode.getExceptionKey() + "_" + sipExceptionCode.getAccessChannelType();
-			datas.put(key, sipExceptionCode);
+		for (int i = 0; null != providers && i < providers.size(); i++) {
+			SipExceptionCodeCacheProvider sipBusiAccessProvider = providers.get(i);
+			if (null != sipBusiAccessProvider) {
+				List<SipExceptionCode> sipBusiAccesses = sipBusiAccessProvider.provide();
+				for (int j = 0; null != sipBusiAccesses && j < sipBusiAccesses.size(); j++) {
+					SipExceptionCode sipExceptionCode = sipBusiAccesses.get(j);
+					String key = sipExceptionCode.getKey() + "_" + sipExceptionCode.getAccessChannel();
+					datas.put(key, sipExceptionCode);
+				}
+			}
 		}
 		return datas;
+	
 	}
 
 	@Override

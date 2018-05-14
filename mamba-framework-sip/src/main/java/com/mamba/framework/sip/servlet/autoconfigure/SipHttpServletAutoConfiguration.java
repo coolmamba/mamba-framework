@@ -6,13 +6,11 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletRegistration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.BeanClassLoaderAware;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -42,22 +40,22 @@ import org.springframework.core.type.AnnotationMetadata;
 
 import com.mamba.framework.context.util.Assert;
 import com.mamba.framework.context.util.BeanDefinitionRegistryUtil;
-import com.mamba.framework.sip.context.provider.AccessChannelSourceProvider;
+import com.mamba.framework.sip.context.cache.provider.AccessChannelCacheProvider;
 import com.mamba.framework.sip.servlet.SipHttpServlet;
-import com.mamba.framework.sip.servlet.autoconfigure.SipServletAutoConfiguration.SipServletComponentRegistrar;
+import com.mamba.framework.sip.servlet.autoconfigure.SipHttpServletAutoConfiguration.SipHttpServletCoreComponentRegistrar;
 
 /**
  * {@link SipHttpServlet}自动配置类
  * 
- * {@link SipServletConfiguration}会创建一个{@link SipHttpServlet}对象，根据{@link SipProperties}信息初始化{@link SipHttpServlet}对象，
+ * {@link SipHttpServletConfiguration}会创建一个{@link SipHttpServlet}对象，
+ * 并根据{@link SipHttpProperties}属性信息初始化{@link SipHttpServlet}对象，
  * 最后会将{@link SipHttpServlet}对象注册到Bean工厂中。
  * 
- * 可以通过application.yaml文件来配置{@link SipProperties}相关字段值，其前缀为sip
- * 
- * {@link SipServletRegistrationConfiguration}会创建一个{@link ServletRegistrationBean}对象，
- * 由于此对象实现了{@link ServletContextInitializer}接口，当Servlet加载并初始化完毕之后，会触发{@link ServletContextInitializer#onStartup(javax.servlet.ServletContext)}
- * 方法执行。
- * 在{@link ServletRegistrationBean#onStartup(javax.servlet.ServletContext)}方法中，会将{@link SipHttpServlet}对象注册到Servlet容器中。
+ * {@link SipHttpServletRegistrationConfiguration}会创建一个{@link ServletRegistrationBean}对象，
+ * 由于此对象实现了{@link ServletContextInitializer}接口，当Servlet加载并初始化完毕之后，
+ * 会触发{@link ServletContextInitializer#onStartup(javax.servlet.ServletContext)} 方法执行。
+ * 在{@link ServletRegistrationBean#onStartup(javax.servlet.ServletContext)}方法中，
+ * 会将{@link SipHttpServlet}对象注册到Servlet容器中。
  * 
  * @author junmamba
  */
@@ -66,24 +64,25 @@ import com.mamba.framework.sip.servlet.autoconfigure.SipServletAutoConfiguration
 @ConditionalOnWebApplication
 @ConditionalOnClass(SipHttpServlet.class)
 @AutoConfigureAfter(EmbeddedServletContainerAutoConfiguration.class)
-@Import(value = { SipServletComponentRegistrar.class })
-public class SipServletAutoConfiguration {
+@Import(value = { SipHttpServletCoreComponentRegistrar.class })
+public class SipHttpServletAutoConfiguration {
 	public static final String DEFAULT_SIP_SERVLET_BEAN_NAME = "sipHttpServlet";
 	public static final String DEFAULT_SIP_SERVLET_REGISTRATION_BEAN_NAME = "sipHttpServletRegistration";
 	
 	/**
-	 * 注册
+	 * SipHttpServlet核心主键注册
 	 * @author junmamba
 	 *
 	 */
-	static class SipServletComponentRegistrar implements ImportBeanDefinitionRegistrar, BeanClassLoaderAware {
-		private static final Log logger = LogFactory.getLog(SipServletComponentRegistrar.class);
+	static class SipHttpServletCoreComponentRegistrar implements ImportBeanDefinitionRegistrar, BeanClassLoaderAware {
+		private static final Log logger = LogFactory.getLog(SipHttpServletCoreComponentRegistrar.class);
 
 		private ClassLoader classLoader;
 
 		@Override
 		public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
-			Set<String> classNames = new LinkedHashSet<String>(SpringFactoriesLoader.loadFactoryNames(AccessChannelSourceProvider.class, this.classLoader));
+			/** 注册“接入方数据源提供商”组件 ** Start */
+			Set<String> classNames = new LinkedHashSet<String>(SpringFactoriesLoader.loadFactoryNames(AccessChannelCacheProvider.class, this.classLoader));
 			if (Assert.isEmpty(classNames)) {
 				logger.warn("在/META-INF/spring.factories配置文件中未找到[接入方数据源提供商]");
 			}
@@ -94,9 +93,9 @@ public class SipServletAutoConfiguration {
 				if (registry.containsBeanDefinition(accessChannelSourceProviderClassName)) {
 					continue;
 				}
-				Class<AccessChannelSourceProvider> accessChannelSourceProviderClass = null;
+				Class<AccessChannelCacheProvider> accessChannelSourceProviderClass = null;
 				try {
-					accessChannelSourceProviderClass = (Class<AccessChannelSourceProvider>) Class.forName(accessChannelSourceProviderClassName);
+					accessChannelSourceProviderClass = (Class<AccessChannelCacheProvider>) Class.forName(accessChannelSourceProviderClassName);
 				} catch (ClassNotFoundException e) {
 					logger.error("获取[接入方数据源提供商]：" + accessChannelSourceProviderClass + " 类信息失败");
 				}
@@ -105,8 +104,8 @@ public class SipServletAutoConfiguration {
 				}
 				BeanDefinitionRegistryUtil.registerInfrastructureBeanDefinition(registry, accessChannelSourceProviderClass);
 			}
+			/** 注册“接入方数据源提供商”组件 ** End */
 		}
-
 		@Override
 		public void setBeanClassLoader(ClassLoader classLoader) {
 			this.classLoader = classLoader;
@@ -114,13 +113,13 @@ public class SipServletAutoConfiguration {
 	}
 
 	@Configuration
-	@Conditional(DefaultSipServletCondition.class)
+	@Conditional(DefaultHttpSipServletCondition.class)
 	@ConditionalOnClass(ServletRegistration.class)
-	@EnableConfigurationProperties(SipProperties.class)
-	protected static class SipServletConfiguration {
-		private final SipProperties sipProperties;
+	@EnableConfigurationProperties(SipHttpProperties.class)
+	protected static class SipHttpServletConfiguration {
+		private final SipHttpProperties sipProperties;
 		
-		public SipServletConfiguration(SipProperties sipProperties) {
+		public SipHttpServletConfiguration(SipHttpProperties sipProperties) {
 			this.sipProperties = sipProperties;
 		}
 
@@ -133,7 +132,7 @@ public class SipServletAutoConfiguration {
 	}
 	
 	@Order(Ordered.LOWEST_PRECEDENCE - 10)
-	private static class DefaultSipServletCondition extends SpringBootCondition {
+	private static class DefaultHttpSipServletCondition extends SpringBootCondition {
 		@Override
 		public ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata) {
 			ConditionMessage.Builder message = ConditionMessage.forCondition("Default SipServlet");
@@ -161,16 +160,13 @@ public class SipServletAutoConfiguration {
 	@Configuration
 	@Conditional(SipServletRegistrationCondition.class)
 	@ConditionalOnClass(ServletRegistration.class)
-	@EnableConfigurationProperties(SipProperties.class)
-	@Import(SipServletConfiguration.class)
-	protected static class SipServletRegistrationConfiguration {
-		private final SipProperties sipProperties;
-		private final MultipartConfigElement multipartConfig;
+	@EnableConfigurationProperties(SipHttpProperties.class)
+	@Import(SipHttpServletConfiguration.class)
+	protected static class SipHttpServletRegistrationConfiguration {
+		private final SipHttpProperties sipProperties;
 
-		public SipServletRegistrationConfiguration(SipProperties sipProperties,
-			ObjectProvider<MultipartConfigElement> multipartConfigProvider) {
+		public SipHttpServletRegistrationConfiguration(SipHttpProperties sipProperties) {
 			this.sipProperties = sipProperties;
-			this.multipartConfig = multipartConfigProvider.getIfAvailable();
 		}
 
 		@Bean(name = DEFAULT_SIP_SERVLET_REGISTRATION_BEAN_NAME)
@@ -179,10 +175,6 @@ public class SipServletAutoConfiguration {
 			ServletRegistrationBean registration = new ServletRegistrationBean(sipServlet, this.sipProperties.getServletMapping());
 			registration.setName(DEFAULT_SIP_SERVLET_BEAN_NAME);
 			registration.setLoadOnStartup(this.sipProperties.getLoadOnStartup());
-			
-			if (this.multipartConfig != null) {
-				registration.setMultipartConfig(this.multipartConfig);
-			}
 			return registration;
 		}
 	}
@@ -228,7 +220,8 @@ public class SipServletAutoConfiguration {
 				return ConditionOutcome.noMatch(message.found("non servlet registration bean").items(DEFAULT_SIP_SERVLET_REGISTRATION_BEAN_NAME));
 			}
 			
-			return ConditionOutcome.match(message.found("servlet registration beans").items(Style.QUOTE, registrations)
+			return ConditionOutcome.match(message.found("servlet registration beans")
+								   .items(Style.QUOTE, registrations)
 								   .append("and none is named " + DEFAULT_SIP_SERVLET_REGISTRATION_BEAN_NAME));
 		}
 

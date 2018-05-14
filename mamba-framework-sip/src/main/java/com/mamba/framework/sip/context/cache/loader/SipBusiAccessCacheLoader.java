@@ -4,24 +4,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.jf.crm.common.framework.sip.mapper.SipBusiAccessMapper;
-import com.jf.crm.common.framework.sip.model.SipBusiAccess;
 import com.mamba.framework.context.cache.loader.AbstractCacheLoader;
+import com.mamba.framework.sip.context.cache.bean.SipBusiAccess;
+import com.mamba.framework.sip.context.cache.provider.SipBusiAccessCacheProvider;
 
 public class SipBusiAccessCacheLoader extends AbstractCacheLoader<String, SipBusiAccess> {
-	@Autowired
-	private SipBusiAccessMapper sipBusiAccessMapper;
-	
 	@Override
 	public Map<String, SipBusiAccess> data() {
-		List<SipBusiAccess> sipBusiAccesses = this.sipBusiAccessMapper.selectAllValidStateDatas();
+		List<SipBusiAccessCacheProvider> providers = getProviders(SipBusiAccessCacheProvider.class);
 		Map<String, SipBusiAccess> datas = new HashMap<String, SipBusiAccess>();
-		for (int i = 0; null != sipBusiAccesses && i < sipBusiAccesses.size(); i++) {
-			SipBusiAccess sipBusiAccess = sipBusiAccesses.get(i);
-			String key = sipBusiAccess.getBusiCode() + "_" + sipBusiAccess.getAccessChannelType();
-			datas.put(key, sipBusiAccess);
+		for (int i = 0; null != providers && i < providers.size(); i++) {
+			SipBusiAccessCacheProvider sipBusiAccessProvider = providers.get(i);
+			if (null != sipBusiAccessProvider) {
+				List<SipBusiAccess> sipBusiAccesses = sipBusiAccessProvider.provide();
+				for (int j = 0; null != sipBusiAccesses && j < sipBusiAccesses.size(); j++) {
+					SipBusiAccess sipBusiAccess = sipBusiAccesses.get(j);
+					String key = sipBusiAccess.getBusiCode() + "_" + sipBusiAccess.getAccessChannel();
+					datas.put(key, sipBusiAccess);
+				}
+			}
 		}
 		return datas;
 	}
