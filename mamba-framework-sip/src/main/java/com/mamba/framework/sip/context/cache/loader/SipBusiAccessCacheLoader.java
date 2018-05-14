@@ -6,9 +6,9 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.jf.crm.common.framework.cache.loader.AbstractCacheLoader;
 import com.jf.crm.common.framework.sip.mapper.SipBusiAccessMapper;
 import com.jf.crm.common.framework.sip.model.SipBusiAccess;
+import com.mamba.framework.context.cache.loader.AbstractCacheLoader;
 
 public class SipBusiAccessCacheLoader extends AbstractCacheLoader<String, SipBusiAccess> {
 	@Autowired

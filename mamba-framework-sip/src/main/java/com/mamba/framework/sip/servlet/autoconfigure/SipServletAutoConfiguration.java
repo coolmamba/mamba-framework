@@ -13,10 +13,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
-import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.condition.ConditionMessage;
@@ -42,8 +40,9 @@ import org.springframework.core.io.support.SpringFactoriesLoader;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.core.type.AnnotationMetadata;
 
-import com.jf.crm.common.framework.sip.provider.AccessChannelSourceProvider;
 import com.mamba.framework.context.util.Assert;
+import com.mamba.framework.context.util.BeanDefinitionRegistryUtil;
+import com.mamba.framework.sip.context.provider.AccessChannelSourceProvider;
 import com.mamba.framework.sip.servlet.SipHttpServlet;
 import com.mamba.framework.sip.servlet.autoconfigure.SipServletAutoConfiguration.SipServletComponentRegistrar;
 
@@ -72,6 +71,11 @@ public class SipServletAutoConfiguration {
 	public static final String DEFAULT_SIP_SERVLET_BEAN_NAME = "sipHttpServlet";
 	public static final String DEFAULT_SIP_SERVLET_REGISTRATION_BEAN_NAME = "sipHttpServletRegistration";
 	
+	/**
+	 * 注册
+	 * @author junmamba
+	 *
+	 */
 	static class SipServletComponentRegistrar implements ImportBeanDefinitionRegistrar, BeanClassLoaderAware {
 		private static final Log logger = LogFactory.getLog(SipServletComponentRegistrar.class);
 
@@ -90,7 +94,6 @@ public class SipServletAutoConfiguration {
 				if (registry.containsBeanDefinition(accessChannelSourceProviderClassName)) {
 					continue;
 				}
-				GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
 				Class<AccessChannelSourceProvider> accessChannelSourceProviderClass = null;
 				try {
 					accessChannelSourceProviderClass = (Class<AccessChannelSourceProvider>) Class.forName(accessChannelSourceProviderClassName);
@@ -100,12 +103,7 @@ public class SipServletAutoConfiguration {
 				if (null == accessChannelSourceProviderClass) {
 					continue;
 				}
-				beanDefinition.setBeanClass(accessChannelSourceProviderClass);
-				beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-				// 将Synthetic设置为true，会造成此类不会被合成，例如，动态代理对其无效
-				beanDefinition.setSynthetic(true);
-				beanDefinition.setLazyInit(true);
-				registry.registerBeanDefinition(accessChannelSourceProviderClassName, beanDefinition);
+				BeanDefinitionRegistryUtil.registerInfrastructureBeanDefinition(registry, accessChannelSourceProviderClass);
 			}
 		}
 

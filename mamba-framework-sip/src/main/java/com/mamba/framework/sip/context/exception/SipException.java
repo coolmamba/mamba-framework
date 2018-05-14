@@ -1,6 +1,6 @@
 package com.mamba.framework.sip.context.exception;
 
-import com.jf.crm.common.framework.exception.BusinessException;
+import com.mamba.framework.context.exception.BusinessException;
 
 public class SipException extends BusinessException {
 	public SipException(String key) {

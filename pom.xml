@@ -6,13 +6,13 @@
 	<version>${mamba.framework.version}</version>
 	<packaging>pom</packaging>
 	<name>mamba-framework</name>
-	<description>曼巴开源框架</description>
+	<description>曼巴开源</description>
 	<url>http://maven.apache.org</url>
 
 	<developers>
 		<developer>
 			<email>lily_mcfly@sina.com</email>
-			<id>mcfly</id>
+			<id>junmamba</id>
 			<name>八两俊</name>
 			<organization>曼巴开源</organization>
 		</developer>
@@ -24,6 +24,7 @@
 		<java.version>1.8</java.version>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<servlet.api.version>3.1.0</servlet.api.version>
 		<spring.boot.version>1.5.10.RELEASE</spring.boot.version>
 		<mamba.framework.version>0.0.1-SNAPSHOT</mamba.framework.version>
 	</properties>
@@ -39,12 +40,16 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>${servlet.api.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<modules>
 		<module>mamba-framework-context</module>
 		<module>mamba-framework-sip</module>
-
 		<module>mamba-framework-web</module>
 	</modules>
 </project>

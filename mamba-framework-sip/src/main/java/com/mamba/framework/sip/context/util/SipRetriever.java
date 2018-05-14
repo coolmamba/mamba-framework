@@ -7,11 +7,11 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.jf.crm.common.framework.cache.util.CacheRetriever;
-import com.jf.crm.common.framework.sip.cache.loader.SipBusiAccessCacheLoader;
-import com.jf.crm.common.framework.sip.cache.loader.SipExceptionCodeCacheLoader;
 import com.jf.crm.common.framework.sip.model.SipBusiAccess;
 import com.jf.crm.common.framework.sip.model.SipExceptionCode;
+import com.mamba.framework.context.cache.util.CacheRetriever;
+import com.mamba.framework.sip.context.cache.loader.SipBusiAccessCacheLoader;
+import com.mamba.framework.sip.context.cache.loader.SipExceptionCodeCacheLoader;
 
 @Component
 public class SipRetriever {

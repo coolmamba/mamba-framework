@@ -6,9 +6,9 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.jf.crm.common.framework.cache.loader.AbstractCacheLoader;
 import com.jf.crm.common.framework.sip.mapper.SipExceptionCodeMapper;
 import com.jf.crm.common.framework.sip.model.SipExceptionCode;
+import com.mamba.framework.context.cache.loader.AbstractCacheLoader;
 
 public class SipExceptionCodeCacheLoader extends AbstractCacheLoader<String, SipExceptionCode> {
 	@Autowired

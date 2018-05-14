@@ -35,19 +35,14 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
-import org.springframework.web.servlet.HttpServletBean;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.PropertyNamingStrategy;
 import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.jf.crm.common.constant.RespCodeEnum;
 import com.jf.crm.common.framework.sip.bean.AccessChannelBean;
-import com.jf.crm.common.framework.sip.constant.SipExceptionKey;
-import com.jf.crm.common.framework.sip.exception.SipException;
 import com.jf.crm.common.framework.sip.model.SipBusiAccess;
 import com.jf.crm.common.framework.sip.model.SipExceptionCode;
-import com.jf.crm.common.framework.sip.provider.AccessChannelSourceProvider;
-import com.jf.crm.common.framework.sip.util.SipRetriever;
 import com.mamba.framework.context.cache.event.CacheLoadedApplicationEvent;
 import com.mamba.framework.context.cache.runner.CacheLoadApplicationRunner;
 import com.mamba.framework.context.exception.BusinessException;
@@ -57,6 +52,10 @@ import com.mamba.framework.context.session.Session;
 import com.mamba.framework.context.session.SessionManager;
 import com.mamba.framework.context.util.Assert;
 import com.mamba.framework.context.util.StringUtils;
+import com.mamba.framework.sip.context.constant.SipExceptionKey;
+import com.mamba.framework.sip.context.exception.SipException;
+import com.mamba.framework.sip.context.provider.AccessChannelSourceProvider;
+import com.mamba.framework.sip.context.util.SipRetriever;
 import com.mamba.framework.sip.servlet.bean.SipBusiReqBodyBean;
 import com.mamba.framework.sip.servlet.bean.SipPubReqInfoBean;
 import com.mamba.framework.sip.servlet.bean.SipReqBean;
@@ -92,7 +91,7 @@ import com.mamba.framework.sip.servlet.event.SipHttpServletHandledEvent;
  * @author junmamba
  *
  */
-public class SipHttpServlet extends HttpServletBean implements ApplicationContextAware, BeanClassLoaderAware, InitializingBean {
+public class SipHttpServlet extends SipHttpServletBean implements ApplicationContextAware, BeanClassLoaderAware, InitializingBean {
 	private Log logger = LogFactory.getLog(SipHttpServlet.class);
 
 	@Autowired
