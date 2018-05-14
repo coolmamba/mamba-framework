@@ -53,11 +53,11 @@ public class CacheLoadAutoConfiguration {
 		
 		private ClassLoader classLoader;
 		
-		@SuppressWarnings("unchecked")
 		@Override
 		public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
 			/** 注册缓存缓存加载类 */
 			registerCacheLoaderBeanDefinition(registry, CacheLoader.class);
+			
 			/** 注册缓存缓存提供类 */
 			registerCacheLoaderBeanDefinition(registry, CacheProvider.class);
 		}

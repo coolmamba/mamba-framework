@@ -8,6 +8,7 @@
 		<artifactId>mamba-framework</artifactId>
 		<version>${mamba.framework.version}</version>
 	</parent>
+	
 	<artifactId>mamba-framework-sip</artifactId>
 	<name>mamba-framework-sip</name>
 	<url>http://maven.apache.org</url>
