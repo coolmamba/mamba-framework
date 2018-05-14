@@ -40,7 +40,7 @@ import com.mamba.framework.context.cache.event.CacheLoadedApplicationEvent;
 import com.mamba.framework.context.cache.runner.CacheLoadApplicationRunner;
 import com.mamba.framework.context.constant.RespEnum;
 import com.mamba.framework.context.exception.BusinessException;
-import com.mamba.framework.context.i18n.util.I18nMessageRetriever;
+import com.mamba.framework.context.i18n.cache.retriever.I18nMessageRetriever;
 import com.mamba.framework.context.session.Operator;
 import com.mamba.framework.context.session.Session;
 import com.mamba.framework.context.session.SessionManager;

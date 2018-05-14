@@ -1,4 +1,4 @@
-package com.mamba.framework.context.i18n.util;
+package com.mamba.framework.context.i18n.cache.retriever;
 
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -6,7 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.mamba.framework.context.cache.util.CacheRetriever;
+import com.mamba.framework.context.cache.retriever.CacheRetriever;
 import com.mamba.framework.sip.context.cache.bean.AccessChannel;
 import com.mamba.framework.sip.context.cache.bean.SipBusiAccess;
 import com.mamba.framework.sip.context.cache.bean.SipExceptionCode;

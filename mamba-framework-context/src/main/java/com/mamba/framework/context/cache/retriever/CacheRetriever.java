@@ -1,4 +1,4 @@
-package com.mamba.framework.context.cache.util;
+package com.mamba.framework.context.cache.retriever;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,13 +14,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Component;
 
 import com.mamba.framework.context.cache.loader.CacheLoader;
 import com.mamba.framework.context.exception.BusinessException;
 import com.mamba.framework.context.util.Assert;
 
-@Component
 public class CacheRetriever {
 	private Log logger = LogFactory.getLog(CacheRetriever.class);
 
@@ -30,7 +28,7 @@ public class CacheRetriever {
 	@Autowired
 	private ApplicationContext context;
 	
-	private static final String REFRESH_CACHE_NAME = "com.jf.crm.common.framework.cache.util.CacheRetriever$RefreshFlag";
+	private static final String REFRESH_CACHE_NAME = "com.mamba.framework.context.cache.util.CacheRetriever$RefreshFlag";
 	private static final String REFRESH_FLAG = "REFRESH_FLAG";
 	private static final String REFRESHING_FLAG = "1";
 	private static final String REFRESHED_FLAG = "0";

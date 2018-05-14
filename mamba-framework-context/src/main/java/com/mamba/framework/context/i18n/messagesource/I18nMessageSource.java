@@ -8,7 +8,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.NoSuchMessageException;
 
-import com.mamba.framework.context.cache.util.CacheRetriever;
+import com.mamba.framework.context.cache.retriever.CacheRetriever;
 import com.mamba.framework.context.i18n.autoconfigure.I18nLocalEnum;
 import com.mamba.framework.context.i18n.autoconfigure.I18nProperties;
 import com.mamba.framework.context.i18n.cache.bean.I18nResource;

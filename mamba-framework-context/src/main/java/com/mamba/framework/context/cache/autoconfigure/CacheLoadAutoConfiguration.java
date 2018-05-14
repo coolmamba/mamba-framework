@@ -27,8 +27,8 @@ import com.mamba.framework.context.FrameworkComponentOrdered;
 import com.mamba.framework.context.cache.autoconfigure.CacheLoadAutoConfiguration.CacheLoaderRegistrar;
 import com.mamba.framework.context.cache.loader.CacheLoader;
 import com.mamba.framework.context.cache.provider.CacheProvider;
+import com.mamba.framework.context.cache.retriever.CacheRetriever;
 import com.mamba.framework.context.cache.runner.CacheLoadApplicationRunner;
-import com.mamba.framework.context.cache.util.CacheRetriever;
 import com.mamba.framework.context.util.Assert;
 import com.mamba.framework.context.util.BeanDefinitionRegistryUtil;
 
@@ -55,11 +55,14 @@ public class CacheLoadAutoConfiguration {
 		
 		@Override
 		public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
-			/** 注册缓存缓存加载类 */
+			/** 注册缓存加载类 */
 			registerCacheLoaderBeanDefinition(registry, CacheLoader.class);
 			
-			/** 注册缓存缓存提供类 */
+			/** 注册缓存提供类 */
 			registerCacheLoaderBeanDefinition(registry, CacheProvider.class);
+			
+			/**注册缓存检索器*/
+			BeanDefinitionRegistryUtil.registerInfrastructureBeanDefinition(registry, CacheRetriever.class);
 		}
 		
 		private void registerCacheLoaderBeanDefinition(BeanDefinitionRegistry registry, Class<?> beanClass) {

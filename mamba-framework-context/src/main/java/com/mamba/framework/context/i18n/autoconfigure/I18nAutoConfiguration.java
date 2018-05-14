@@ -15,8 +15,8 @@ import org.springframework.core.type.AnnotationMetadata;
 import com.mamba.framework.context.FrameworkComponentOrdered;
 import com.mamba.framework.context.cache.autoconfigure.CacheLoadAutoConfiguration;
 import com.mamba.framework.context.i18n.autoconfigure.I18nAutoConfiguration.I18nMessageSourceRegistrar;
+import com.mamba.framework.context.i18n.cache.retriever.I18nMessageRetriever;
 import com.mamba.framework.context.i18n.messagesource.I18nMessageSource;
-import com.mamba.framework.context.i18n.util.I18nMessageRetriever;
 import com.mamba.framework.context.util.BeanDefinitionRegistryUtil;
 
 @AutoConfigureOrder(FrameworkComponentOrdered.I18N)
