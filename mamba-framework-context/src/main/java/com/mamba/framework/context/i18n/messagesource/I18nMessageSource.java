@@ -17,8 +17,7 @@ import com.mamba.framework.context.util.Assert;
 import com.mamba.framework.context.util.StringUtils;
 
 /**
- * DC_i18n_resources消息源
- * 
+ * i18n_resources消息源
  * @author junmamba
  */
 public class I18nMessageSource implements MessageSource {
