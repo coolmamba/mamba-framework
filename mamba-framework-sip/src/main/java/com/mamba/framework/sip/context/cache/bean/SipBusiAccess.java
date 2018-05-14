@@ -3,76 +3,83 @@ package com.mamba.framework.sip.context.cache.bean;
 import java.io.Serializable;
 
 public class SipBusiAccess implements Serializable {
-	private Integer busiAccessId;
-	private String busiCode;
-	private Integer accessChannel;
-	private String serviceClassName;
-	private String serviceMethodName;
-	private String remark;
-	private Integer entityId;
-	private String state;
+    private Integer busiAccessId;
 
-	public Integer getBusiAccessId() {
-		return busiAccessId;
-	}
+    private String busiCode;
 
-	public void setBusiAccessId(Integer busiAccessId) {
-		this.busiAccessId = busiAccessId;
-	}
+    private Integer accessChannel;
 
-	public String getBusiCode() {
-		return busiCode;
-	}
+    private String serviceClassName;
 
-	public void setBusiCode(String busiCode) {
-		this.busiCode = busiCode;
-	}
+    private String serviceMethodName;
 
-	public Integer getAccessChannel() {
-		return accessChannel;
-	}
+    private String remark;
 
-	public void setAccessChannel(Integer accessChannel) {
-		this.accessChannel = accessChannel;
-	}
+    private Integer entityId;
 
-	public String getServiceClassName() {
-		return serviceClassName;
-	}
+    private String state;
 
-	public void setServiceClassName(String serviceClassName) {
-		this.serviceClassName = serviceClassName;
-	}
+    public Integer getBusiAccessId() {
+        return busiAccessId;
+    }
 
-	public String getServiceMethodName() {
-		return serviceMethodName;
-	}
+    public void setBusiAccessId(Integer busiAccessId) {
+        this.busiAccessId = busiAccessId;
+    }
 
-	public void setServiceMethodName(String serviceMethodName) {
-		this.serviceMethodName = serviceMethodName;
-	}
+    public String getBusiCode() {
+        return busiCode;
+    }
 
-	public String getRemark() {
-		return remark;
-	}
+    public void setBusiCode(String busiCode) {
+        this.busiCode = busiCode;
+    }
 
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
+    public Integer getAccessChannel() {
+        return accessChannel;
+    }
 
-	public Integer getEntityId() {
-		return entityId;
-	}
+    public void setAccessChannel(Integer accessChannel) {
+        this.accessChannel = accessChannel;
+    }
 
-	public void setEntityId(Integer entityId) {
-		this.entityId = entityId;
-	}
+    public String getServiceClassName() {
+        return serviceClassName;
+    }
 
-	public String getState() {
-		return state;
-	}
+    public void setServiceClassName(String serviceClassName) {
+        this.serviceClassName = serviceClassName;
+    }
 
-	public void setState(String state) {
-		this.state = state;
-	}
+    public String getServiceMethodName() {
+        return serviceMethodName;
+    }
+
+    public void setServiceMethodName(String serviceMethodName) {
+        this.serviceMethodName = serviceMethodName;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public Integer getEntityId() {
+        return entityId;
+    }
+
+    public void setEntityId(Integer entityId) {
+        this.entityId = entityId;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 }

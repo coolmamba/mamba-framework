@@ -1,49 +1,53 @@
 package com.mamba.framework.sip.context.cache.bean;
 
 public class SipExceptionCode {
-	private String key;
-	private Integer accessChannel;
-	private String code;
-	private String desc;
-	private String state;
+    private String exceptionKey;
 
-	public String getKey() {
-		return key;
-	}
+    private Integer accessChannel;
 
-	public void setKey(String key) {
-		this.key = key;
-	}
+    private String code;
 
-	public Integer getAccessChannel() {
-		return accessChannel;
-	}
+    private String desc;
 
-	public void setAccessChannel(Integer accessChannel) {
-		this.accessChannel = accessChannel;
-	}
+    private String state;
 
-	public String getCode() {
-		return code;
-	}
+    public String getExceptionKey() {
+        return exceptionKey;
+    }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public void setExceptionKey(String exceptionKey) {
+        this.exceptionKey = exceptionKey;
+    }
 
-	public String getDesc() {
-		return desc;
-	}
+    public Integer getAccessChannel() {
+        return accessChannel;
+    }
 
-	public void setDesc(String desc) {
-		this.desc = desc;
-	}
+    public void setAccessChannel(Integer accessChannel) {
+        this.accessChannel = accessChannel;
+    }
 
-	public String getState() {
-		return state;
-	}
+    public String getCode() {
+        return code;
+    }
 
-	public void setState(String state) {
-		this.state = state;
-	}
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 }

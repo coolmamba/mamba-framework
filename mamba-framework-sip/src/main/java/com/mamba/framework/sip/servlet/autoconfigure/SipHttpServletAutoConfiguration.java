@@ -1,20 +1,15 @@
 package com.mamba.framework.sip.servlet.autoconfigure;
 
 import java.util.Arrays;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.ServletRegistration;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
+import org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionMessage;
 import org.springframework.boot.autoconfigure.condition.ConditionMessage.Style;
 import org.springframework.boot.autoconfigure.condition.ConditionOutcome;
@@ -34,13 +29,12 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.core.io.support.SpringFactoriesLoader;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.core.type.AnnotationMetadata;
 
-import com.mamba.framework.context.util.Assert;
+import com.mamba.framework.context.FrameworkComponentOrdered;
 import com.mamba.framework.context.util.BeanDefinitionRegistryUtil;
-import com.mamba.framework.sip.context.cache.provider.AccessChannelCacheProvider;
+import com.mamba.framework.sip.context.cache.util.SipRetriever;
 import com.mamba.framework.sip.servlet.SipHttpServlet;
 import com.mamba.framework.sip.servlet.autoconfigure.SipHttpServletAutoConfiguration.SipHttpServletCoreComponentRegistrar;
 
@@ -59,11 +53,11 @@ import com.mamba.framework.sip.servlet.autoconfigure.SipHttpServletAutoConfigura
  * 
  * @author junmamba
  */
-@AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
+@AutoConfigureOrder(FrameworkComponentOrdered.SIP)
 @Configuration
 @ConditionalOnWebApplication
 @ConditionalOnClass(SipHttpServlet.class)
-@AutoConfigureAfter(EmbeddedServletContainerAutoConfiguration.class)
+@AutoConfigureAfter({ EmbeddedServletContainerAutoConfiguration.class, CacheAutoConfiguration.class })
 @Import(value = { SipHttpServletCoreComponentRegistrar.class })
 public class SipHttpServletAutoConfiguration {
 	public static final String DEFAULT_SIP_SERVLET_BEAN_NAME = "sipHttpServlet";
@@ -74,41 +68,10 @@ public class SipHttpServletAutoConfiguration {
 	 * @author junmamba
 	 *
 	 */
-	static class SipHttpServletCoreComponentRegistrar implements ImportBeanDefinitionRegistrar, BeanClassLoaderAware {
-		private static final Log logger = LogFactory.getLog(SipHttpServletCoreComponentRegistrar.class);
-
-		private ClassLoader classLoader;
-
+	static class SipHttpServletCoreComponentRegistrar implements ImportBeanDefinitionRegistrar {
 		@Override
 		public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
-			/** 注册“接入方数据源提供商”组件 ** Start */
-			Set<String> classNames = new LinkedHashSet<String>(SpringFactoriesLoader.loadFactoryNames(AccessChannelCacheProvider.class, this.classLoader));
-			if (Assert.isEmpty(classNames)) {
-				logger.warn("在/META-INF/spring.factories配置文件中未找到[接入方数据源提供商]");
-			}
-
-			Iterator<String> ite = classNames.iterator();
-			while (ite.hasNext()) {
-				String accessChannelSourceProviderClassName = ite.next();
-				if (registry.containsBeanDefinition(accessChannelSourceProviderClassName)) {
-					continue;
-				}
-				Class<AccessChannelCacheProvider> accessChannelSourceProviderClass = null;
-				try {
-					accessChannelSourceProviderClass = (Class<AccessChannelCacheProvider>) Class.forName(accessChannelSourceProviderClassName);
-				} catch (ClassNotFoundException e) {
-					logger.error("获取[接入方数据源提供商]：" + accessChannelSourceProviderClass + " 类信息失败");
-				}
-				if (null == accessChannelSourceProviderClass) {
-					continue;
-				}
-				BeanDefinitionRegistryUtil.registerInfrastructureBeanDefinition(registry, accessChannelSourceProviderClass);
-			}
-			/** 注册“接入方数据源提供商”组件 ** End */
-		}
-		@Override
-		public void setBeanClassLoader(ClassLoader classLoader) {
-			this.classLoader = classLoader;
+			BeanDefinitionRegistryUtil.registerInfrastructureBeanDefinition(registry, SipRetriever.class);
 		}
 	}
 

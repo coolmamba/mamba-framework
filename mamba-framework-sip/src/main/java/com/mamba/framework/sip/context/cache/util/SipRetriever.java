@@ -5,7 +5,6 @@ import javax.cache.Cache;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.mamba.framework.context.cache.util.CacheRetriever;
 import com.mamba.framework.sip.context.cache.bean.AccessChannel;
@@ -15,7 +14,6 @@ import com.mamba.framework.sip.context.cache.loader.AccessChannelCacheLoader;
 import com.mamba.framework.sip.context.cache.loader.SipBusiAccessCacheLoader;
 import com.mamba.framework.sip.context.cache.loader.SipExceptionCodeCacheLoader;
 
-@Component
 public class SipRetriever {
 	private Log logger = LogFactory.getLog(SipRetriever.class);
 	

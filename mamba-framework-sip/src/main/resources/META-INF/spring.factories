@@ -1,15 +1,9 @@
 # SIP自动配置
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.jf.crm.sip.framework.sip.autoconfigure.SipHttpServletAutoConfiguration
+com.mamba.framework.sip.servlet.autoconfigure.SipHttpServletAutoConfiguration
 
 # 缓存配置
 com.mamba.framework.context.cache.loader.CacheLoader=\
 com.mamba.framework.sip.context.cache.loader.AccessChannelCacheLoader,\
 com.mamba.framework.sip.context.cache.loader.SipBusiAccessCacheLoader,\
 com.mamba.framework.sip.context.cache.loader.SipExceptionCodeCacheLoader
-
-# 缓存提供商配置
-com.mamba.framework.sip.context.cache.provider.CacheProvider=\
-com.mamba.framework.sip.context.cache.provider.AccessChannelCacheProvider,\
-com.mamba.framework.sip.context.cache.provider.SipBusiAccessCacheProvider,\
-com.mamba.framework.sip.context.cache.provider.SipExceptionCodeCacheProvider
