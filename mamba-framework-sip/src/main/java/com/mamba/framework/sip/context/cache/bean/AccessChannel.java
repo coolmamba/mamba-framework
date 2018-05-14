@@ -6,6 +6,11 @@ public class AccessChannel implements Serializable {
 	private int accessChannel;
 	private String accessChannelName;
 
+	public AccessChannel(int accessChannel, String accessChannelName) {
+		this.accessChannel = accessChannel;
+		this.accessChannelName = accessChannelName;
+	}
+
 	public int getAccessChannel() {
 		return accessChannel;
 	}
