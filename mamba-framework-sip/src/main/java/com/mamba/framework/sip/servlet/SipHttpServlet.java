@@ -49,7 +49,7 @@ import com.mamba.framework.context.util.StringUtils;
 import com.mamba.framework.sip.context.cache.bean.AccessChannel;
 import com.mamba.framework.sip.context.cache.bean.SipBusiAccess;
 import com.mamba.framework.sip.context.cache.bean.SipExceptionCode;
-import com.mamba.framework.sip.context.cache.util.SipRetriever;
+import com.mamba.framework.sip.context.cache.retriever.SipRetriever;
 import com.mamba.framework.sip.context.constant.SipExceptionKey;
 import com.mamba.framework.sip.context.exception.SipException;
 import com.mamba.framework.sip.servlet.bean.SipBusiReqBodyBean;

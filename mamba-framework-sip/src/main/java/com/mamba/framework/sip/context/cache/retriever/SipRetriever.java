@@ -1,4 +1,4 @@
-package com.mamba.framework.sip.context.cache.util;
+package com.mamba.framework.sip.context.cache.retriever;
 
 import javax.cache.Cache;
 

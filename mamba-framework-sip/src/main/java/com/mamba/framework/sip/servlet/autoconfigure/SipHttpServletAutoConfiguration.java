@@ -34,7 +34,7 @@ import org.springframework.core.type.AnnotationMetadata;
 
 import com.mamba.framework.context.FrameworkComponentOrdered;
 import com.mamba.framework.context.util.BeanDefinitionRegistryUtil;
-import com.mamba.framework.sip.context.cache.util.SipRetriever;
+import com.mamba.framework.sip.context.cache.retriever.SipRetriever;
 import com.mamba.framework.sip.servlet.SipHttpServlet;
 import com.mamba.framework.sip.servlet.autoconfigure.SipHttpServletAutoConfiguration.SipHttpServletCoreComponentRegistrar;
 
