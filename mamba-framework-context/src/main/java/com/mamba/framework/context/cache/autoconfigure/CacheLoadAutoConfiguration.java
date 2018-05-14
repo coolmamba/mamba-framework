@@ -10,9 +10,7 @@ import javax.sql.DataSource;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.BeanClassLoaderAware;
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
-import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration;
@@ -25,14 +23,16 @@ import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.io.support.SpringFactoriesLoader;
 import org.springframework.core.type.AnnotationMetadata;
 
-import com.mamba.framework.context.FrameComponentOrdered;
+import com.mamba.framework.context.FrameworkComponentOrdered;
 import com.mamba.framework.context.cache.autoconfigure.CacheLoadAutoConfiguration.CacheLoaderRegistrar;
 import com.mamba.framework.context.cache.loader.CacheLoader;
+import com.mamba.framework.context.cache.provider.CacheProvider;
 import com.mamba.framework.context.cache.runner.CacheLoadApplicationRunner;
 import com.mamba.framework.context.cache.util.CacheRetriever;
 import com.mamba.framework.context.util.Assert;
+import com.mamba.framework.context.util.BeanDefinitionRegistryUtil;
 
-@AutoConfigureOrder(FrameComponentOrdered.CACHE)
+@AutoConfigureOrder(FrameworkComponentOrdered.CACHE)
 @Configuration
 @ConditionalOnClass(CacheManager.class)
 @AutoConfigureAfter(value = { CacheAutoConfiguration.class, DataSourceAutoConfiguration.class, DataSource.class })
@@ -56,33 +56,34 @@ public class CacheLoadAutoConfiguration {
 		@SuppressWarnings("unchecked")
 		@Override
 		public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
-			Set<String> cacheLoaderClassNames = new LinkedHashSet<String>(SpringFactoriesLoader.loadFactoryNames(CacheLoader.class, this.classLoader));
-			if (Assert.isEmpty(cacheLoaderClassNames)) {
-				logger.warn("在/META-INF/spring.factories配置文件中未找到缓存加载器");
+			/** 注册缓存缓存加载类 */
+			registerCacheLoaderBeanDefinition(registry, CacheLoader.class);
+			/** 注册缓存缓存提供类 */
+			registerCacheLoaderBeanDefinition(registry, CacheProvider.class);
+		}
+		
+		private void registerCacheLoaderBeanDefinition(BeanDefinitionRegistry registry, Class<?> beanClass) {
+			Set<String> factoryNames = new LinkedHashSet<String>(SpringFactoriesLoader.loadFactoryNames(beanClass, this.classLoader));
+			if (Assert.isEmpty(factoryNames)) {
+				logger.warn("在/META-INF/spring.factories配置文件中未找到: " + beanClass.getName());
 				return;
 			}
-			Iterator<String> ite = cacheLoaderClassNames.iterator();
+			Iterator<String> ite = factoryNames.iterator();
 			while (ite.hasNext()) {
-				String cacheLoaderClassName = ite.next();
-				if (registry.containsBeanDefinition(cacheLoaderClassName)) {
+				String factoryName = ite.next();
+				if (registry.containsBeanDefinition(factoryName)) {
 					continue;
 				}
-				GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
-				Class<CacheLoader<?, ?>> cacheLoaderClass = null;
+				Class<?> clazz = null;
 				try {
-					cacheLoaderClass = (Class<CacheLoader<?, ?>>) Class.forName(cacheLoaderClassName);
+					clazz = Class.forName(factoryName);
 				} catch (ClassNotFoundException e) {
-					logger.error("获取缓存加载类：" + cacheLoaderClassName + "失败");
+					logger.error("加载类：" + factoryName + "失败，原因：" + e.getMessage());
 				}
-				if (null == cacheLoaderClass) {
+				if (null == clazz) {
 					continue;
 				}
-				beanDefinition.setBeanClass(cacheLoaderClass);
-				beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-				// 将Synthetic设置为true，会造成此类不会被合成，例如，动态代理对其无效
-				beanDefinition.setSynthetic(true);
-				beanDefinition.setLazyInit(true);
-				registry.registerBeanDefinition(cacheLoaderClassName, beanDefinition);
+				BeanDefinitionRegistryUtil.registerInfrastructureBeanDefinition(registry, clazz);
 			}
 		}
 

@@ -13,14 +13,14 @@ import org.springframework.core.io.support.SpringFactoriesLoader;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.ClassUtils;
 
-import com.mamba.framework.context.FrameComponentOrdered;
+import com.mamba.framework.context.FrameworkComponentOrdered;
 import com.mamba.framework.context.beans.beantranslator.autoconfigure.BeanTranslatorAutoConfiguration.BeanTranslatorRegistrar;
 import com.mamba.framework.context.beans.beantranslator.core.BeanFieldTranslator;
 import com.mamba.framework.context.beans.beantranslator.core.BeanTranslator;
 import com.mamba.framework.context.cache.autoconfigure.CacheLoadAutoConfiguration;
 import com.mamba.framework.context.util.BeanDefinitionRegistryUtil;
 
-@AutoConfigureOrder(FrameComponentOrdered.BEAN_TRANSLATOR)
+@AutoConfigureOrder(FrameworkComponentOrdered.BEAN_TRANSLATOR)
 @Configuration
 @AutoConfigureAfter(value = { CacheLoadAutoConfiguration.class })
 @Import(value = { BeanTranslatorRegistrar.class })
