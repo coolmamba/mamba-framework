@@ -1,5 +1,6 @@
 package com.mamba.framework.context.session;
 
+import com.mamba.framework.context.session.core.Operator;
 import com.mamba.framework.context.session.core.Session;
 
 public class SessionManager {
@@ -11,5 +12,10 @@ public class SessionManager {
 
 	public static Session getSession() {
 		return s_session.get();
+	}
+
+	public Operator getOperator() {
+		Session session = getSession();
+		return session == null ? null : session.getOperator();
 	}
 }
