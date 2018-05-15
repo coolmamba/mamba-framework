@@ -41,9 +41,10 @@ import com.mamba.framework.context.cache.runner.CacheLoadApplicationRunner;
 import com.mamba.framework.context.constant.RespEnum;
 import com.mamba.framework.context.exception.BusinessException;
 import com.mamba.framework.context.i18n.cache.retriever.I18nMessageCacheRetriever;
-import com.mamba.framework.context.session.Operator;
-import com.mamba.framework.context.session.Session;
 import com.mamba.framework.context.session.SessionManager;
+import com.mamba.framework.context.session.core.Operator;
+import com.mamba.framework.context.session.core.Session;
+import com.mamba.framework.context.session.provider.OperatorProvider;
 import com.mamba.framework.context.util.Assert;
 import com.mamba.framework.context.util.StringUtils;
 import com.mamba.framework.sip.context.cache.bean.AccessChannel;
@@ -94,6 +95,9 @@ public class SipHttpServlet extends SipHttpServletBean implements ApplicationCon
 	
 	@Autowired
 	private I18nMessageCacheRetriever i18nMessageRetriever;
+	
+	@Autowired
+	private OperatorProvider operatorProvider;
 	
 	private ApplicationContext context;
 	private ClassLoader classLoader;
@@ -238,15 +242,13 @@ public class SipHttpServlet extends SipHttpServletBean implements ApplicationCon
 	 */
 	private void initSession(SipReqBean sipReqBean) {
 		Session session = new Session();
-
 		// 操作员信息
-		Operator operator = new Operator();
-		operator.setOperatorId(sipReqBean.getPubReqInfo().getOperatorId());
+		Operator operator = this.operatorProvider.getOperator(sipReqBean.getPubReqInfo().getOperatorId());
 		session.setOperator(operator);
-
 		// 渠道信息
 		session.setAccessChannel(sipReqBean.getPubReqInfo().getAccessChannel());
 		session.setAccessChannelName(sipReqBean.getPubReqInfo().getAccessChannelName());
+		SessionManager.setSession(session);
 	}
 	
 	/**

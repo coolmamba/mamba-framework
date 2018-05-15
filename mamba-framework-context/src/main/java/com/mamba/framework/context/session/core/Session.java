@@ -1,4 +1,4 @@
-package com.mamba.framework.context.session;
+package com.mamba.framework.context.session.core;
 
 import java.io.Serializable;
 

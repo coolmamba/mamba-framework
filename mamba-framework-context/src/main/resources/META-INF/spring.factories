@@ -1,6 +1,7 @@
 # 自动配置
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.mamba.framework.context.cache.autoconfigure.CacheLoadAutoConfiguration,\
+com.mamba.framework.context.session.autoconfigure.SessionAutoConfiguration,\
 com.mamba.framework.context.i18n.autoconfigure.I18nAutoConfiguration,\
 com.mamba.framework.context.beans.beantranslator.autoconfigure.BeanTranslatorAutoConfiguration
 

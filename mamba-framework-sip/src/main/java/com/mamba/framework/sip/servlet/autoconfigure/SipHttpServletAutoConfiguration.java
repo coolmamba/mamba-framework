@@ -33,6 +33,7 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.core.type.AnnotationMetadata;
 
 import com.mamba.framework.context.FrameworkComponentOrdered;
+import com.mamba.framework.context.session.autoconfigure.SessionAutoConfiguration;
 import com.mamba.framework.context.util.BeanDefinitionRegistryUtil;
 import com.mamba.framework.sip.context.cache.retriever.SipCacheRetriever;
 import com.mamba.framework.sip.servlet.SipHttpServlet;
@@ -57,7 +58,7 @@ import com.mamba.framework.sip.servlet.autoconfigure.SipHttpServletAutoConfigura
 @Configuration
 @ConditionalOnWebApplication
 @ConditionalOnClass(SipHttpServlet.class)
-@AutoConfigureAfter({ EmbeddedServletContainerAutoConfiguration.class, CacheAutoConfiguration.class })
+@AutoConfigureAfter({ EmbeddedServletContainerAutoConfiguration.class, CacheAutoConfiguration.class, SessionAutoConfiguration.class })
 @Import(value = { SipHttpServletCoreComponentRegistrar.class })
 public class SipHttpServletAutoConfiguration {
 	public static final String DEFAULT_SIP_SERVLET_BEAN_NAME = "sipHttpServlet";

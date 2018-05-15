@@ -1,5 +1,7 @@
 package com.mamba.framework.context.session;
 
+import com.mamba.framework.context.session.core.Session;
+
 public class SessionManager {
 	private static ThreadLocal<Session> s_session = new ThreadLocal<Session>();
 
