@@ -65,7 +65,7 @@ public class BeanMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public final <T> T map2Bean(Map<String, Object> in, Class<T> outClass) throws BeanMapperException {
+	public final static <T> T map2Bean(Map<String, Object> in, Class<T> outClass) throws BeanMapperException {
 		if (null == in || null == outClass) {
 			return null;
 		}
@@ -91,7 +91,7 @@ public class BeanMapper {
 	 * @throws Exception
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public final <T> void map2Bean(Map<String, Object> in, T out) throws BeanMapperException {
+	public final static <T> void map2Bean(Map<String, Object> in, T out) throws BeanMapperException {
 		try {
 			if (null == in || null == out) {
 				return;
@@ -199,7 +199,7 @@ public class BeanMapper {
 		}
 	}
 
-	private Object convert(String targetType, Object srcObject) {
+	private static Object convert(String targetType, Object srcObject) {
 		if (null == srcObject) {
 			return null;
 		}
@@ -227,7 +227,7 @@ public class BeanMapper {
 	 * @param field
 	 * @return
 	 */
-	private boolean isJavaNormalTypeField(Field field) {
+	private static boolean isJavaNormalTypeField(Field field) {
 		Class<?> fieldType = field.getType();
 		String fieldTypeName = fieldType.getName();
 		if (BASE_TYPES.contains(fieldTypeName) // Java基本类型
@@ -248,7 +248,7 @@ public class BeanMapper {
 	 * @param fieldName
 	 * @return
 	 */
-	protected String doGetMapKeyName(String fieldName) {
+	private static String doGetMapKeyName(String fieldName) {
 		return StringUtils.capitalize(fieldName);
 	}
 }
