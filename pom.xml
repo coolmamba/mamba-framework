@@ -26,7 +26,7 @@
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 		<servlet.api.version>3.1.0</servlet.api.version>
 		<spring.boot.version>1.5.10.RELEASE</spring.boot.version>
-		<mamba.framework.version>0.0.1-SNAPSHOT</mamba.framework.version>
+		<mamba.framework.version>1.0.1</mamba.framework.version>
 	</properties>
 
 	<dependencyManagement>
@@ -44,6 +44,11 @@
 				<groupId>javax.servlet</groupId>
 				<artifactId>javax.servlet-api</artifactId>
 				<version>${servlet.api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.mamba</groupId>
+				<artifactId>mamba-framework-context</artifactId>
+				<version>${mamba.framework.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
