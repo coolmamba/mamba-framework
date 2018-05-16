@@ -2,17 +2,17 @@
 <project
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.mamba</groupId>
 		<artifactId>mamba-framework</artifactId>
 		<version>${mamba.framework.version}</version>
 	</parent>
-	
+
+	<modelVersion>4.0.0</modelVersion>
 	<artifactId>mamba-framework-sip</artifactId>
 	<name>mamba-framework-sip</name>
 	<url>http://maven.apache.org</url>
-
+	<packaging>jar</packaging>
 
 	<!-- **************添加sip工程jar依赖**************Start -->
 	<dependencies>
@@ -31,4 +31,24 @@
 		</dependency>
 	</dependencies>
 	<!-- **************添加sip工程jar依赖****************End -->
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>1.5.10.RELEASE</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<layout>NONE</layout>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
