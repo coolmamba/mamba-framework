@@ -3,24 +3,22 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.mamba</groupId>
 	<artifactId>mamba-framework</artifactId>
-	<version>${mamba.framework.version}</version>
+	<version>1.0.3</version>
 	<packaging>pom</packaging>
 	<name>mamba-framework</name>
 	<description>曼巴开源</description>
-	<url>http://maven.apache.org</url>
+	<url>https://github.com/junmamba/mamba-framework</url>
 
 	<developers>
 		<developer>
 			<email>lily_mcfly@sina.com</email>
 			<id>junmamba</id>
 			<name>八两俊</name>
-			<organization>曼巴开源</organization>
 		</developer>
 	</developers>
 
 	<properties>
-		<mamba.framework.version>1.0.2</mamba.framework.version>
-
+		<mamba.framework.version>1.0.3</mamba.framework.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
@@ -51,11 +49,49 @@
 				<artifactId>mamba-framework-context</artifactId>
 				<version>${mamba.framework.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>com.mamba</groupId>
+				<artifactId>mamba-framework-sip</artifactId>
+				<version>${mamba.framework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.mamba</groupId>
+				<artifactId>mamba-framework-web</artifactId>
+				<version>${mamba.framework.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
 	<modules>
 		<module>mamba-framework-context</module>
 		<module>mamba-framework-sip</module>
 		<module>mamba-framework-web</module>
 	</modules>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<inherited>true</inherited>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<distributionManagement>
+		<repository>
+			<id>nexus-releases</id>
+			<name>Nexus Release Repository</name>
+			<url>http://health.xiao3sun.com/nexus/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>nexus-snapshots</id>
+			<name>Nexus Snapshot Repository</name>
+			<url>http://health.xiao3sun.com/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
 </project>
