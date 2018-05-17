@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.mamba</groupId>
 	<artifactId>mamba-framework</artifactId>
-	<version>1.0.3</version>
+	<version>1.0.5</version>
 	<packaging>pom</packaging>
 	<name>mamba-framework</name>
 	<description>曼巴开源</description>
@@ -18,7 +18,7 @@
 	</developers>
 
 	<properties>
-		<mamba.framework.version>1.0.3</mamba.framework.version>
+		<mamba.framework.version>1.0.5</mamba.framework.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
@@ -31,8 +31,6 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<!-- 导入SpringBoot版本 需要注意以下几点： 1、dependencyManagement只是为了统一所有依赖项的版本管理，只是进行声明，不会引发buildpath改变。 
-					如果需要引入依赖项，则需要在“同级的dependencies”元素中增加依赖项。 2、如果需要覆盖当前依赖项dependency中的某个jar包的版本，需要在当前dependency之前添加另一个dependency进行覆盖 -->
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-dependencies</artifactId>
 				<version>${spring.boot.version}</version>
@@ -83,6 +81,10 @@
 	</build>
 
 	<distributionManagement>
+		<!-- 
+			【repository和snapshotRepository节点的id属性值】需要与【settings.xml配置文件的server节点的id属性值】一样
+			运行mvn deploy命令，就可以将打包好的jar发布到maven仓库中
+		 -->
 		<repository>
 			<id>nexus-releases</id>
 			<name>Nexus Release Repository</name>
