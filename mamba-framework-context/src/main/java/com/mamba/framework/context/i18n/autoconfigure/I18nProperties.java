@@ -2,7 +2,7 @@ package com.mamba.framework.context.i18n.autoconfigure;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = "i18n")
+@ConfigurationProperties(prefix = "mamba.i18n")
 public class I18nProperties {
 	private I18nLocalEnum local = I18nLocalEnum.ZH_CN;
 

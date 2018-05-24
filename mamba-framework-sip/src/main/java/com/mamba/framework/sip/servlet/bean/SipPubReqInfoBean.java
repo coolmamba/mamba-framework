@@ -3,15 +3,15 @@ package com.mamba.framework.sip.servlet.bean;
 import java.io.Serializable;
 
 public class SipPubReqInfoBean implements Serializable {
-	private long operatorId;
+	private int operatorId;
 	private int accessChannel;
 	private String accessChannelName;
 
-	public long getOperatorId() {
+	public int getOperatorId() {
 		return operatorId;
 	}
 
-	public void setOperatorId(long operatorId) {
+	public void setOperatorId(int operatorId) {
 		this.operatorId = operatorId;
 	}
 

@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.mamba</groupId>
 	<artifactId>mamba-framework</artifactId>
-	<version>1.0.5</version>
+	<version>1.0.6</version>
 	<packaging>pom</packaging>
 	<name>mamba-framework</name>
 	<description>曼巴开源</description>
@@ -18,7 +18,7 @@
 	</developers>
 
 	<properties>
-		<mamba.framework.version>1.0.5</mamba.framework.version>
+		<mamba.framework.version>1.0.6</mamba.framework.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>

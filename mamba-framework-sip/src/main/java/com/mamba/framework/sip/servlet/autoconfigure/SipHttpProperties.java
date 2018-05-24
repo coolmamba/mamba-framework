@@ -2,7 +2,7 @@ package com.mamba.framework.sip.servlet.autoconfigure;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = "sip")
+@ConfigurationProperties(prefix = "mamba.sip")
 public class SipHttpProperties {
 	private int loadOnStartup = -1;
 	private String servletPath = "/";
