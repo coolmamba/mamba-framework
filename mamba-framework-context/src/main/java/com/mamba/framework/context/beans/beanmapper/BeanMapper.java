@@ -204,26 +204,64 @@ public class BeanMapper {
 		if (null == srcObject) {
 			return null;
 		}
-		
-		String srcString = String.valueOf(srcObject).trim();;
-		boolean isEmpty = false;
-		if (Assert.isBlank(srcString)) {
-			isEmpty = true;
-		}
+
+		String srcString = String.valueOf(srcObject).trim();
 		if (BASE_TYPE_BOOLEAN.equals(targetType) || BASE_WRAPPER_TTPE_BOOLEAN.equals(targetType)) {
-			return isEmpty ? 0 : Boolean.parseBoolean(String.valueOf(srcObject));
+			boolean result = false;
+			try {
+				result = Boolean.parseBoolean(srcString);
+			} catch (Exception e) {
+				result = false;
+			}
+			return result;
 		} else if (BASE_TYPE_INT.equals(targetType) || BASE_WRAPPER_TTPE_INTEGER.equals(targetType)) {
-			return isEmpty ? 0 : Integer.parseInt(String.valueOf(srcObject));
+			int result = -1;
+			try {
+				result = Integer.parseInt(srcString);
+			} catch (Exception e) {
+				result = -1;
+			}
+			return result;
 		} else if (BASE_TYPE_LONG.equals(targetType) || BASE_WRAPPER_TTPE_LONG.equals(targetType)) {
-			return isEmpty ? 0 : Long.parseLong(String.valueOf(srcObject));
+			long result = -1;
+			try {
+				result = Long.parseLong(srcString);
+			} catch (Exception e) {
+				result = -1;
+			}
+			return result;
 		} else if (BASE_TYPE_SHORT.equals(targetType) || BASE_WRAPPER_TTPE_SHORT.equals(targetType)) {
-			return isEmpty ? 0 : Short.parseShort(String.valueOf(srcObject));
+			short result = -1;
+			try {
+				result = Short.parseShort(srcString);
+			} catch (Exception e) {
+				result = -1;
+			}
+			return result;
 		} else if (BASE_TYPE_FLOAT.equals(targetType) || BASE_WRAPPER_TTPE_FLOAT.equals(targetType)) {
-			return isEmpty ? 0 : Float.parseFloat(String.valueOf(srcObject));
+			float result = -1;
+			try {
+				result = Float.parseFloat(srcString);
+			} catch (Exception e) {
+				result = -1;
+			}
+			return result;
 		} else if (BASE_TYPE_DOUBLE.equals(targetType) || BASE_WRAPPER_TTPE_DOUBLE.equals(targetType)) {
-			return isEmpty ? 0 : Double.parseDouble(String.valueOf(srcObject));
+			double result = -1;
+			try {
+				result = Double.parseDouble(srcString);
+			} catch (Exception e) {
+				result = -1;
+			}
+			return result;
 		} else if (BASE_TYPE_BYTE.equals(targetType) || BASE_WRAPPER_TTPE_BYTE.equals(targetType)) {
-			return isEmpty ? 0 : Byte.parseByte(String.valueOf(srcObject));
+			byte result = -1;
+			try {
+				result = Byte.parseByte(srcString);
+			} catch (Exception e) {
+				result = -1;
+			}
+			return result;
 		}
 		return null;
 	}
