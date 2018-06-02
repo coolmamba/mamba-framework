@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.mamba.framework.context.util.Assert;
 import com.mamba.framework.context.util.ClassUtil;
 import com.mamba.framework.context.util.StringUtils;
 
@@ -203,20 +204,26 @@ public class BeanMapper {
 		if (null == srcObject) {
 			return null;
 		}
+		
+		String srcString = String.valueOf(srcObject).trim();;
+		boolean isEmpty = false;
+		if (Assert.isBlank(srcString)) {
+			isEmpty = true;
+		}
 		if (BASE_TYPE_BOOLEAN.equals(targetType) || BASE_WRAPPER_TTPE_BOOLEAN.equals(targetType)) {
-			return Boolean.parseBoolean(String.valueOf(srcObject));
+			return isEmpty ? 0 : Boolean.parseBoolean(String.valueOf(srcObject));
 		} else if (BASE_TYPE_INT.equals(targetType) || BASE_WRAPPER_TTPE_INTEGER.equals(targetType)) {
-			return Integer.parseInt(String.valueOf(srcObject));
+			return isEmpty ? 0 : Integer.parseInt(String.valueOf(srcObject));
 		} else if (BASE_TYPE_LONG.equals(targetType) || BASE_WRAPPER_TTPE_LONG.equals(targetType)) {
-			return Long.parseLong(String.valueOf(srcObject));
+			return isEmpty ? 0 : Long.parseLong(String.valueOf(srcObject));
 		} else if (BASE_TYPE_SHORT.equals(targetType) || BASE_WRAPPER_TTPE_SHORT.equals(targetType)) {
-			return Short.parseShort(String.valueOf(srcObject));
+			return isEmpty ? 0 : Short.parseShort(String.valueOf(srcObject));
 		} else if (BASE_TYPE_FLOAT.equals(targetType) || BASE_WRAPPER_TTPE_FLOAT.equals(targetType)) {
-			return Float.parseFloat(String.valueOf(srcObject));
+			return isEmpty ? 0 : Float.parseFloat(String.valueOf(srcObject));
 		} else if (BASE_TYPE_DOUBLE.equals(targetType) || BASE_WRAPPER_TTPE_DOUBLE.equals(targetType)) {
-			return Double.parseDouble(String.valueOf(srcObject));
+			return isEmpty ? 0 : Double.parseDouble(String.valueOf(srcObject));
 		} else if (BASE_TYPE_BYTE.equals(targetType) || BASE_WRAPPER_TTPE_BYTE.equals(targetType)) {
-			return Byte.parseByte(String.valueOf(srcObject));
+			return isEmpty ? 0 : Byte.parseByte(String.valueOf(srcObject));
 		}
 		return null;
 	}
