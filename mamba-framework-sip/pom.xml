@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.mamba</groupId>
 		<artifactId>mamba-framework</artifactId>
-		<version>1.0.6</version>
+		<version>1.0.7</version>
 	</parent>
 	<artifactId>mamba-framework-sip</artifactId>
 	<name>mamba-framework-sip</name>
