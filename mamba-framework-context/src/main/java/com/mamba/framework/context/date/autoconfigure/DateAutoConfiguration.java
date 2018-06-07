@@ -11,11 +11,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.mamba.framework.context.FrameworkComponentOrdered;
-import com.mamba.framework.context.cache.runner.SystemDateApplicationRunner;
 import com.mamba.framework.context.date.provider.DefaultSystemDateProvider;
 import com.mamba.framework.context.date.provider.MysqlSystemDateProvider;
 import com.mamba.framework.context.date.provider.SystemDateProvider;
-import com.mamba.framework.context.date.util.DateUtil;
+import com.mamba.framework.context.date.runner.SystemDateApplicationRunner;
 
 @AutoConfigureOrder(FrameworkComponentOrdered.DATE)
 @AutoConfigureAfter(value = { DataSourceAutoConfiguration.class, DataSource.class })
@@ -32,11 +31,6 @@ public class DateAutoConfiguration {
 	@ConditionalOnMissingBean(SystemDateProvider.class)
 	public DefaultSystemDateProvider defaultSystemDateProvider() {
 		return new DefaultSystemDateProvider();
-	}
-
-	@Bean
-	public DateUtil dateUtil() {
-		return new DateUtil();
 	}
 
 	@Bean
