@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.mamba.framework.context.FrameworkComponentOrdered;
+import com.mamba.framework.context.cache.runner.SystemDateApplicationRunner;
 import com.mamba.framework.context.date.provider.DefaultSystemDateProvider;
 import com.mamba.framework.context.date.provider.MysqlSystemDateProvider;
 import com.mamba.framework.context.date.provider.SystemDateProvider;
@@ -36,5 +37,10 @@ public class DateAutoConfiguration {
 	@Bean
 	public DateUtil dateUtil() {
 		return new DateUtil();
+	}
+
+	@Bean
+	public SystemDateApplicationRunner systemDateApplicationRunner() {
+		return new SystemDateApplicationRunner();
 	}
 }

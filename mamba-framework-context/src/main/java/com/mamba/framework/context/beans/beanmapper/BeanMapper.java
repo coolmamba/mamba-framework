@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.mamba.framework.context.util.Assert;
 import com.mamba.framework.context.util.ClassUtil;
 import com.mamba.framework.context.util.StringUtils;
 
@@ -147,6 +146,9 @@ public class BeanMapper {
 						
 						// 判断List所使用的泛型是否跟mapValue中元素项类型一致
 						List<?> srcList = (List<?>) mapValue;
+						if (null == srcList || srcList.size() == 0) {
+							continue;
+						}
 						boolean isSameType = fieldGenericClass.isAssignableFrom(srcList.get(0).getClass());
 						if (!isSameType && !MAP_CLASS.isAssignableFrom(srcList.get(0).getClass())) {
 							throw new BeanMapperException("field type mismatch");
