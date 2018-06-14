@@ -7,6 +7,7 @@ import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -36,6 +37,7 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.PropertyNamingStrategy;
 import com.alibaba.fastjson.serializer.SerializeConfig;
+import com.alibaba.fastjson.serializer.SimpleDateFormatSerializer;
 import com.mamba.framework.context.cache.event.CacheLoadedApplicationEvent;
 import com.mamba.framework.context.cache.runner.CacheLoadApplicationRunner;
 import com.mamba.framework.context.constant.RespEnum;
@@ -456,7 +458,12 @@ public class SipHttpServlet extends SipHttpServletBean implements ApplicationCon
 		}
 		long startTime = System.currentTimeMillis();
 		// 初始化fastJson配置，设置响应报文key首字母大写
-		this.fastJsonConfig.propertyNamingStrategy = PropertyNamingStrategy.PascalCase;;
+		this.fastJsonConfig.propertyNamingStrategy = PropertyNamingStrategy.PascalCase;
+		
+		SimpleDateFormatSerializer dateFormatSerializer = new SimpleDateFormatSerializer("yyyy-MM-dd HH:mm:ss");
+		this.fastJsonConfig.put(Date.class, dateFormatSerializer);
+		this.fastJsonConfig.put(java.sql.Date.class, dateFormatSerializer);
+		this.fastJsonConfig.put(java.sql.Timestamp.class, dateFormatSerializer);
 		
 		if (this.logger.isInfoEnabled()) {
 			long elapsedTime = System.currentTimeMillis() - startTime;
