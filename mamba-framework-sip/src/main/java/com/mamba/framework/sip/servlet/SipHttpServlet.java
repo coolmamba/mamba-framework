@@ -1,7 +1,6 @@
 package com.mamba.framework.sip.servlet;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
@@ -16,6 +15,7 @@ import java.util.Set;
 
 import javax.cache.Cache;
 import javax.servlet.ServletException;
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -291,8 +291,9 @@ public class SipHttpServlet extends SipHttpServletBean implements ApplicationCon
 	 * @param request
 	 * @return
 	 * @throws SipException
+	 * @throws IOException 
 	 */
-	private SipReqBean parseRequestContent(HttpServletRequest request) throws SipException {
+	private SipReqBean parseRequestContent(HttpServletRequest request) throws SipException, IOException {
 		// 读取请求内容
 		String content = readRequestContent(request);
 
@@ -332,38 +333,24 @@ public class SipHttpServlet extends SipHttpServletBean implements ApplicationCon
 	 * @param request
 	 * @param response
 	 * @return
+	 * @throws IOException 
 	 * @throws Exception
 	 */
-	private String readRequestContent(HttpServletRequest request) throws SipException {
-		String content = StringUtils.EMPTY;
-		try {
-			int contentLength = request.getContentLength();
-			byte[] buffer = (byte[]) null;
-			if (contentLength > DEFAULT_CONTEXT_LENHTH)
-				buffer = new byte[contentLength];
-			else {
-				buffer = new byte[DEFAULT_CONTEXT_LENHTH];
-			}
-			
-			String encode = request.getCharacterEncoding();
-			if (StringUtils.isBlank(encode)) {
-				encode = DEFAULT_ENCODING;
-			}
-			
-			InputStream in = request.getInputStream();
-			int length = in.read(buffer);
-
+	private String readRequestContent(HttpServletRequest request) throws SipException, IOException {
+		StringBuilder sb = new StringBuilder();
+		byte[] buffer = new byte[1024];
+		String encode = request.getCharacterEncoding();
+		if (StringUtils.isBlank((String) encode)) {
+			encode = DEFAULT_ENCODING;
+		}
+		int length = -1;
+		ServletInputStream in = request.getInputStream();
+		while ((length = in.read(buffer)) > 0) {
 			byte[] data = new byte[length];
 			System.arraycopy(buffer, 0, data, 0, length);
-			content = new String(data, encode).trim();
-		} catch (Exception e) {
-			logger.error(getExceptionFullStackMessage(e));
-			throw new SipException(SipExceptionKey.SIP000005);
+			sb.append(new String(data, encode).trim());
 		}
-		if (StringUtils.isBlank(content)) {
-			throw new SipException(SipExceptionKey.SIP000004);
-		}
-		return content;
+		return sb.toString();
 	}
 	
 	/**
