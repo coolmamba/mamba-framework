@@ -87,7 +87,16 @@ public class BeanTranslator implements InitializingBean, BeanClassLoaderAware {
 			fieldTranslatorMetaData.setSrcBean(bean);
 			fieldTranslatorMetaData.setSrcFieldName(beanFieldMetaData.getSrcFieldName());
 			fieldTranslatorMetaData.setSrcFieldVlaue(getFieldValue(bean, beanFieldMetaData.getSrcFieldName()));
-			targetBeanMap.put(beanFieldMetaData.getTargetFieldName(), beanFieldTranslator.translate(fieldTranslatorMetaData));
+			Object translateResult = beanFieldTranslator.translate(fieldTranslatorMetaData);
+			String translateResultStr = null;
+			if (null == translateResult) {
+				translateResultStr = "";
+			} else if (translateResult instanceof String) {
+				translateResultStr = (String) translateResult;
+			} else {
+				translateResultStr = translateResult.toString();
+			}
+			targetBeanMap.put(beanFieldMetaData.getTargetFieldName(), translateResultStr);
 		}
 		
 		BeanUtils.copyProperties(bean, targetBean);
