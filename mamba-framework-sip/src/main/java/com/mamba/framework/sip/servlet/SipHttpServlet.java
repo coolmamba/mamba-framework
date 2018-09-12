@@ -337,20 +337,22 @@ public class SipHttpServlet extends SipHttpServletBean implements ApplicationCon
 	 * @throws Exception
 	 */
 	private String readRequestContent(HttpServletRequest request) throws SipException, IOException {
-		StringBuilder sb = new StringBuilder();
 		byte[] buffer = new byte[1024];
 		String encode = request.getCharacterEncoding();
 		if (StringUtils.isBlank((String) encode)) {
-			encode = DEFAULT_ENCODING;
+			encode = "UTF-8";
 		}
-		int length = -1;
 		ServletInputStream in = request.getInputStream();
+		
+		byte[] data = new byte[request.getContentLength()];
+		int length = -1;
+		int startIndex = 0;
 		while ((length = in.read(buffer)) > 0) {
-			byte[] data = new byte[length];
-			System.arraycopy(buffer, 0, data, 0, length);
-			sb.append(new String(data, encode).trim());
+			System.arraycopy(buffer, 0, data, startIndex, length);
+			buffer = new byte[1024];
+			startIndex += length;
 		}
-		return sb.toString();
+		return new String(data, encode).trim();
 	}
 	
 	/**
