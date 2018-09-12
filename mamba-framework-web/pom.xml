@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.mamba</groupId>
 		<artifactId>mamba-framework</artifactId>
-		<version>1.0.13</version>
+		<version>1.0.14</version>
 	</parent>
 	<artifactId>mamba-framework-web</artifactId>
 	<name>mamba-framework-web</name>
